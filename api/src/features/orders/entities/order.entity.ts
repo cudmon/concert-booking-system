@@ -8,12 +8,24 @@ import {
   PrimaryGeneratedColumn
 } from "typeorm";
 
+export enum OrderStatus {
+  RESERVED = "RESERVED",
+  CANCELLED = "CANCELLED"
+}
+
 @Entity({
   name: "orders"
 })
 export class OrderEntity {
   @PrimaryGeneratedColumn()
   id!: number;
+
+  @Column({
+    type: "enum",
+    enum: OrderStatus,
+    default: OrderStatus.RESERVED
+  })
+  status: OrderStatus;
 
   @JoinColumn({ name: "user_id" })
   @ManyToOne(() => UserEntity, (user) => user.orders)
