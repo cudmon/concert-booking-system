@@ -16,6 +16,7 @@
     "rootDir": "src",
     "skipLibCheck": true,
     "strictNullChecks": true,
+    "strictPropertyInitialization": false,
     "forceConsistentCasingInFileNames": true,
     "types": ["node", "jest"],
     "paths": {
