@@ -14,18 +14,18 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
       useFactory: (configService: ConfigService) => ({
         type: "postgres",
         autoLoadEntities: true,
-        host: configService.get<string>("DB_HOST"),
-        port: configService.get<number>("DB_PORT"),
-        database: configService.get<string>("DB_NAME"),
-        username: configService.get<string>("DB_USERNAME"),
-        password: configService.get<string>("DB_PASSWORD")
+        host: configService.getOrThrow<string>("DB_HOST"),
+        port: configService.getOrThrow<number>("DB_PORT"),
+        database: configService.getOrThrow<string>("DB_NAME"),
+        username: configService.getOrThrow<string>("DB_USERNAME"),
+        password: configService.getOrThrow<string>("DB_PASSWORD")
       })
     }),
 
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>("JWT_SECRET"),
+        secret: configService.getOrThrow<string>("JWT_SECRET"),
         signOptions: {
           expiresIn: "1h"
         }
