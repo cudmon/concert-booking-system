@@ -1,6 +1,7 @@
 import { JwtModule } from "@nestjs/jwt";
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { dataSourceOptions } from "@/database/datasource";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 
 @Module({
@@ -9,18 +10,7 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
       isGlobal: true
     }),
 
-    TypeOrmModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: "postgres",
-        autoLoadEntities: true,
-        host: configService.getOrThrow<string>("DB_HOST"),
-        port: configService.getOrThrow<number>("DB_PORT"),
-        database: configService.getOrThrow<string>("DB_NAME"),
-        username: configService.getOrThrow<string>("DB_USERNAME"),
-        password: configService.getOrThrow<string>("DB_PASSWORD")
-      })
-    }),
+    TypeOrmModule.forRoot(dataSourceOptions),
 
     JwtModule.registerAsync({
       inject: [ConfigService],
