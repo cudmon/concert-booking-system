@@ -4,7 +4,7 @@ import {
   Column,
   Entity,
   JoinColumn,
-  OneToMany,
+  ManyToOne,
   PrimaryGeneratedColumn
 } from "typeorm";
 
@@ -16,11 +16,11 @@ export class OrderEntity {
   id!: number;
 
   @JoinColumn({ name: "user_id" })
-  @OneToMany(() => UserEntity, (user) => user.orders)
+  @ManyToOne(() => UserEntity, (user) => user.orders)
   user: UserEntity;
 
   @JoinColumn({ name: "concert_id" })
-  @OneToMany(() => ConcertEntity, (concert) => concert.orders)
+  @ManyToOne(() => ConcertEntity, (concert) => concert.orders)
   concert: ConcertEntity;
 
   @Column({

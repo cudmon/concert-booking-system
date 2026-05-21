@@ -1,5 +1,5 @@
 import { OrderEntity } from "@/features/orders/entities/order.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({
   name: "concerts"
@@ -27,7 +27,7 @@ export class ConcertEntity {
   })
   sold_tickets: number;
 
-  @ManyToOne(() => OrderEntity, (order) => order.concert)
+  @OneToMany(() => OrderEntity, (order) => order.concert)
   orders: OrderEntity[];
 
   constructor(partial: Partial<ConcertEntity>) {

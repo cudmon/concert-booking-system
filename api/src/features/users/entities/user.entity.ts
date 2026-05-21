@@ -1,5 +1,5 @@
 import { OrderEntity } from "@/features/orders/entities/order.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 export enum UserRole {
   USER = "USER",
@@ -39,7 +39,7 @@ export class UserEntity {
   })
   role: UserRole;
 
-  @ManyToOne(() => OrderEntity, (order) => order.user)
+  @OneToMany(() => OrderEntity, (order) => order.user)
   orders: OrderEntity[];
 
   constructor(partial: Partial<UserEntity>) {
