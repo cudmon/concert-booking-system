@@ -31,9 +31,15 @@ export class OrderEntity {
   @ManyToOne(() => UserEntity, (user) => user.orders)
   user: UserEntity;
 
+  @Column()
+  user_id: number;
+
   @JoinColumn({ name: "concert_id" })
   @ManyToOne(() => ConcertEntity, (concert) => concert.orders)
   concert: ConcertEntity;
+
+  @Column()
+  concert_id: number;
 
   @Column({
     type: "date",
