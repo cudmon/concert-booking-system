@@ -6,5 +6,6 @@ injectWorkspacePackages: true
 
 allowBuilds:
   "@nestjs/core": true
+  argon2: true
   sharp: true
   unrs-resolver: true
