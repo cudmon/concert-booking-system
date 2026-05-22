@@ -16,6 +16,12 @@ export class ConcertEntity {
   name: string;
 
   @Column({
+    type: "text",
+    nullable: true
+  })
+  description: string;
+
+  @Column({
     type: "int",
     default: 0
   })
