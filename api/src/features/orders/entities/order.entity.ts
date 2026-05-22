@@ -2,6 +2,7 @@ import { UserEntity } from "@/features/users/entities/user.entity";
 import { ConcertEntity } from "@/features/concerts/entities/concert.entity";
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -28,24 +29,24 @@ export class OrderEntity {
   status: OrderStatus;
 
   @JoinColumn({ name: "user_id" })
-  @ManyToOne(() => UserEntity, (user) => user.orders)
+  @ManyToOne(() => UserEntity, (user) => user.orders, {
+    onDelete: "CASCADE"
+  })
   user: UserEntity;
 
   @Column()
   user_id: number;
 
   @JoinColumn({ name: "concert_id" })
-  @ManyToOne(() => ConcertEntity, (concert) => concert.orders)
+  @ManyToOne(() => ConcertEntity, (concert) => concert.orders, {
+    onDelete: "CASCADE"
+  })
   concert: ConcertEntity;
 
   @Column()
   concert_id: number;
 
-  @Column({
-    type: "date",
-    name: "created_at",
-    default: () => "CURRENT_TIMESTAMP"
-  })
+  @CreateDateColumn()
   created_at: Date;
 
   constructor(partial: Partial<OrderEntity>) {
