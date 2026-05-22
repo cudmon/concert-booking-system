@@ -1,8 +1,14 @@
+import "@mantine/core/styles.css";
 import "@/styles/index.css";
 
 import type { Metadata } from "next";
 import { PropsWithChildren } from "react";
 import { Inter } from "next/font/google";
+import {
+  ColorSchemeScript,
+  mantineHtmlProps,
+  MantineProvider
+} from "@mantine/core";
 
 const font = Inter({
   variable: "--font-inter",
@@ -16,8 +22,17 @@ export const metadata: Metadata = {
 
 export default function Root({ children }: Readonly<PropsWithChildren>) {
   return (
-    <html lang="en" className={`${font.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col">{children}</body>
+    <html
+      lang="en"
+      {...mantineHtmlProps}
+      className={`${font.variable} h-full antialiased`}
+    >
+      <head>
+        <ColorSchemeScript />
+      </head>
+      <body>
+        <MantineProvider>{children}</MantineProvider>
+      </body>
     </html>
   );
 }
