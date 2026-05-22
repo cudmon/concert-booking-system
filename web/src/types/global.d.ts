@@ -1,5 +1,5 @@
 type Concert = {
-  id: string;
+  id: number;
   name: string;
   capacity: number;
   sold_tickets: number;
@@ -7,14 +7,17 @@ type Concert = {
 };
 
 type Order = {
-  id: string;
+  id: number;
   status: "RESERVED" | "CANCELLED";
-  user_id: string;
-  concert_id: string;
+  user_id: number;
+  user: User;
+  concert_id: number;
+  concert: Concert;
+  created_at: string;
 };
 
 type User = {
-  id: string;
+  id: number;
   name: string;
   email: string;
   role: "USER" | "ADMIN";
