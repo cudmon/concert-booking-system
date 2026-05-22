@@ -1,3 +1,4 @@
+import { Request } from "express";
 import { Reflector } from "@nestjs/core";
 import { JwtService } from "@nestjs/jwt";
 import { IS_PUBLIC_KEY } from "@/features/auth/decorators/public.decorator";
@@ -25,17 +26,17 @@ export class AuthGuard implements CanActivate {
       return true;
     }
 
-    const request = context.switchToHttp().getRequest();
-    const [type, token] = request.headers.authorization?.split(" ") ?? [];
+    const request = context.switchToHttp().getRequest<Request>();
+    const token = request.cookies.token;
 
-    if (!token || type !== "Bearer") {
+    if (!token) {
       throw new UnauthorizedException();
     }
 
     try {
       const payload = await this.jwtService.verifyAsync(token);
 
-      request["user"] = payload;
+      request.user = payload;
     } catch {
       throw new UnauthorizedException();
     }
