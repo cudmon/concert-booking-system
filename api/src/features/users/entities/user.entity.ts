@@ -1,3 +1,4 @@
+import { Exclude } from "class-transformer";
 import { OrderEntity } from "@/features/orders/entities/order.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
@@ -26,6 +27,7 @@ export class UserEntity {
   })
   email: string;
 
+  @Exclude()
   @Column({
     type: "varchar",
     length: 255
