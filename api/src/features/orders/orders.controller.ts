@@ -5,6 +5,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   ParseIntPipe,
   Patch,
   Post
@@ -13,6 +14,11 @@ import {
 @Controller("orders")
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
+
+  @Get("me")
+  async findByUserId(@CurrentUser() user: CurrentUser) {
+    return this.ordersService.findByUserId(user.id);
+  }
 
   @Get()
   async findAll() {
@@ -30,7 +36,7 @@ export class OrdersController {
   @Patch(":id/cancel")
   async cancel(
     @CurrentUser() user: CurrentUser,
-    @Body("id", ParseIntPipe) id: number
+    @Param("id", ParseIntPipe) id: number
   ) {
     return this.ordersService.cancel({
       id,
