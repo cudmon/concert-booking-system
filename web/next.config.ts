@@ -6,6 +6,7 @@ export default {
   devIndicators: false,
   reactStrictMode: true,
   poweredByHeader: false,
+  output: "standalone",
   rewrites() {
     return [
       {
