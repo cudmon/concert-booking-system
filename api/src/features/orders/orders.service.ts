@@ -1,5 +1,6 @@
 import { DataSource, Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
+import { ConcertEntity } from "@/features/concerts/entities/concert.entity";
 import { IOrderCancel, IOrderCreate } from "@/features/orders/orders.interface";
 import {
   BadRequestException,
@@ -10,7 +11,6 @@ import {
   OrderEntity,
   OrderStatus
 } from "@/features/orders/entities/order.entity";
-import { ConcertEntity } from "@/features/concerts/entities/concert.entity";
 
 @Injectable()
 export class OrdersService {
@@ -21,7 +21,20 @@ export class OrdersService {
   ) {}
 
   async findAll(): Promise<OrderEntity[]> {
-    return this.ordersRepository.find();
+    return this.ordersRepository.find({
+      relations: {
+        user: true,
+        concert: true
+      }
+    });
+  }
+
+  async findByUserId(user_id: number): Promise<OrderEntity[]> {
+    return this.ordersRepository.find({
+      where: {
+        user_id
+      }
+    });
   }
 
   async findById(id: number): Promise<OrderEntity> {
@@ -43,15 +56,20 @@ export class OrdersService {
     await queryRunner.startTransaction();
 
     try {
-      const existed = await queryRunner.manager.findOne(OrderEntity, {
+      const existed = await queryRunner.manager.find(OrderEntity, {
         where: {
           user_id: data.user_id,
-          concert_id: data.concert_id,
-          status: OrderStatus.RESERVED
-        }
+          concert_id: data.concert_id
+        },
+
+        order: {
+          created_at: "DESC"
+        },
+
+        take: 1
       });
 
-      if (existed) {
+      if (existed.length > 0 && existed[0].status === OrderStatus.RESERVED) {
         throw new BadRequestException(
           "You have already reserved a ticket for this concert"
         );
@@ -117,9 +135,13 @@ export class OrdersService {
         return order;
       }
 
-      order.status = OrderStatus.CANCELLED;
+      const record = queryRunner.manager.create(OrderEntity, {
+        user_id: order.user_id,
+        concert_id: order.concert_id,
+        status: OrderStatus.CANCELLED
+      });
 
-      await queryRunner.manager.save(order);
+      await queryRunner.manager.save(record);
 
       await queryRunner.manager.decrement(
         ConcertEntity,
@@ -132,7 +154,7 @@ export class OrdersService {
 
       await queryRunner.commitTransaction();
 
-      return order;
+      return record;
     } catch (err) {
       await queryRunner.rollbackTransaction();
       throw err;
