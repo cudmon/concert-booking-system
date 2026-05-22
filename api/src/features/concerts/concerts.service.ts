@@ -12,7 +12,11 @@ export class ConcertsService {
   ) {}
 
   async findAll(): Promise<ConcertEntity[]> {
-    return this.concertRepository.find();
+    return this.concertRepository.find({
+      order: {
+        id: "DESC"
+      }
+    });
   }
 
   async findOne(id: number): Promise<ConcertEntity | null> {

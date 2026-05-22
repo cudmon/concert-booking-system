@@ -25,6 +25,10 @@ export class OrdersService {
       relations: {
         user: true,
         concert: true
+      },
+
+      order: {
+        created_at: "DESC"
       }
     });
   }
@@ -33,6 +37,10 @@ export class OrdersService {
     return this.ordersRepository.find({
       where: {
         user_id
+      },
+
+      order: {
+        created_at: "DESC"
       }
     });
   }
