@@ -29,7 +29,8 @@ export class AuthController {
     const token = await this.authService.register(
       data.name,
       data.email,
-      data.password
+      data.password,
+      data.role
     );
 
     return this.authenticate(res, token);

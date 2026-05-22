@@ -6,6 +6,7 @@ import {
   Injectable,
   UnauthorizedException
 } from "@nestjs/common";
+import { UserRole } from "../users/entities/user.entity";
 
 @Injectable()
 export class AuthService {
@@ -33,7 +34,12 @@ export class AuthService {
     });
   }
 
-  async register(name: string, email: string, password: string) {
+  async register(
+    name: string,
+    email: string,
+    password: string,
+    role: UserRole
+  ) {
     const user = await this.usersService.findByEmail(email);
 
     if (user) {
@@ -43,7 +49,8 @@ export class AuthService {
     await this.usersService.create({
       name,
       email,
-      password
+      password,
+      role
     });
 
     return this.login(email, password);

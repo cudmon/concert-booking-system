@@ -1,5 +1,7 @@
+import { UserRole } from "@/features/users/entities/user.entity";
 import {
   IsEmail,
+  IsEnum,
   IsNotEmpty,
   IsString,
   MaxLength,
@@ -25,4 +27,9 @@ export class RegisterDto {
   @IsString()
   @IsNotEmpty()
   name: string;
+
+  @IsEnum(UserRole)
+  @IsString()
+  @IsNotEmpty()
+  role: UserRole;
 }
