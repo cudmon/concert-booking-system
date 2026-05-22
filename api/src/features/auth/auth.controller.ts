@@ -1,8 +1,10 @@
 import type { Response } from "express";
 import { LoginDto } from "@/features/auth/dto/login.dto";
 import { AuthService } from "@/features/auth/auth.service";
-import { Body, Controller, Get, Post, Res } from "@nestjs/common";
 import { RegisterDto } from "@/features/auth/dto/register.dto";
+import { UserRole } from "@/features/users/entities/user.entity";
+import { Body, Controller, Get, Post, Res } from "@nestjs/common";
+import { Roles } from "@/features/auth/decorators/roles.decorator";
 import { Public } from "@/features/auth/decorators/public.decorator";
 import { CurrentUser } from "@/features/auth/decorators/current-user.decorator";
 
@@ -38,11 +40,13 @@ export class AuthController {
   }
 
   @Get("me")
+  @Roles(UserRole.ADMIN, UserRole.USER)
   async me(@CurrentUser() user: CurrentUser) {
     return this.authService.me(user.id);
   }
 
   @Post("logout")
+  @Roles(UserRole.ADMIN, UserRole.USER)
   logout(@Res({ passthrough: true }) res: Response) {
     res.clearCookie("token", {
       httpOnly: true,
