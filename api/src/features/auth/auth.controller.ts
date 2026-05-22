@@ -1,9 +1,10 @@
 import type { Response } from "express";
 import { LoginDto } from "@/features/auth/dto/login.dto";
 import { AuthService } from "@/features/auth/auth.service";
-import { Body, Controller, Post, Res } from "@nestjs/common";
+import { Body, Controller, Get, Post, Res } from "@nestjs/common";
 import { RegisterDto } from "@/features/auth/dto/register.dto";
 import { Public } from "@/features/auth/decorators/public.decorator";
+import { CurrentUser } from "@/features/auth/decorators/current-user.decorator";
 
 @Controller("auth")
 export class AuthController {
@@ -34,6 +35,20 @@ export class AuthController {
     );
 
     return this.authenticate(res, token);
+  }
+
+  @Get("me")
+  async me(@CurrentUser() user: CurrentUser) {
+    return this.authService.me(user.id);
+  }
+
+  @Post("logout")
+  logout(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict"
+    });
   }
 
   private async authenticate(res: Response, token: string) {

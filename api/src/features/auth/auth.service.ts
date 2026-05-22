@@ -4,6 +4,7 @@ import { UsersService } from "@/features/users/users.service";
 import {
   ConflictException,
   Injectable,
+  NotFoundException,
   UnauthorizedException
 } from "@nestjs/common";
 import { UserRole } from "../users/entities/user.entity";
@@ -14,6 +15,21 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService
   ) {}
+
+  async me(id: number) {
+    const user = await this.usersService.findById(id);
+
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role
+    };
+  }
 
   async login(email: string, password: string) {
     const user = await this.usersService.findByEmail(email);
