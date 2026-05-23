@@ -61,7 +61,7 @@ export class OrdersService {
     const queryRunner = this.dataSource.createQueryRunner();
 
     await queryRunner.connect();
-    await queryRunner.startTransaction();
+    await queryRunner.startTransaction("SERIALIZABLE");
 
     try {
       const existed = await queryRunner.manager.find(OrderEntity, {
@@ -125,7 +125,7 @@ export class OrdersService {
     const queryRunner = this.dataSource.createQueryRunner();
 
     await queryRunner.connect();
-    await queryRunner.startTransaction();
+    await queryRunner.startTransaction("SERIALIZABLE");
 
     try {
       const order = await queryRunner.manager.findOne(OrderEntity, {
