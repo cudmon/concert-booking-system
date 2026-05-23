@@ -43,6 +43,13 @@ Before running the commands below, make sure to install dependencies with `pnpm 
 - `pnpm -F web run build` - Build the web frontend for production.
 - `pnpm -F web run start` - Start the web frontend in production mode after building.
 
+# Architecture Overview
+
+The system is designed with a clear separation of concerns between the API and the web frontend. The API handles all business logic, data management, and authentication, while the web frontend provides a user interface for interacting with the system.
+
+Next.js is proxying API requests to the NestJS backend, allowing for seamless integration and cookies sharing for authentication.
+Thus this will make API hidden from the outside world, and only the web frontend will be exposed to users.
+
 # Future improvements
 
 1. Performance optimizations
@@ -52,4 +59,3 @@ Before running the commands below, make sure to install dependencies with `pnpm 
 2. Concurrency handling
    - Currently, use transactions with serializable isolation level to prevent race conditions during booking.
    - For high-load scenarios, using in-memory databases like Redis to manage concurrent booking requests and handle transactions in job queues to reduce load on the main database.
-
