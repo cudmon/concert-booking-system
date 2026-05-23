@@ -10,7 +10,7 @@ import { SignOutIcon } from "@phosphor-icons/react";
 import { useRouter, usePathname } from "next/navigation";
 import { PropsWithChildren, ReactNode, useState } from "react";
 
-type Props = PropsWithChildren<{
+export type Props = PropsWithChildren<{
   title: string;
   unauthorizedRedirect: Route;
   allowedRoles: User["role"][];
@@ -42,7 +42,8 @@ export function DashboardLayout({
   }
 
   if (!allowedRoles.includes(user.role)) {
-    return router.push(unauthorizedRedirect);
+    router.push(unauthorizedRedirect);
+    return null;
   }
 
   const onLogout = () => {

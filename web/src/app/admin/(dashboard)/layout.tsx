@@ -1,17 +1,14 @@
 "use client";
 
 import { PropsWithChildren } from "react";
-import {
-  DashboardLayout,
-  type DashboardNavItem
-} from "@/components/dashboard-layout";
+import { DashboardLayout, type Props } from "@/components/dashboard-layout";
 import {
   ArrowsClockwiseIcon,
   HouseIcon,
   TrayIcon
 } from "@phosphor-icons/react";
 
-const NAV_ITEMS: DashboardNavItem[] = [
+const NAV_ITEMS: Props["items"] = [
   {
     label: "Home",
     href: "/admin/home",
@@ -36,7 +33,7 @@ export default function Layout({ children }: Readonly<PropsWithChildren>) {
   return (
     <DashboardLayout
       title="Admin"
-      navItems={NAV_ITEMS}
+      items={NAV_ITEMS}
       allowedRoles={["ADMIN"]}
       unauthorizedRedirect="/dashboard/home"
     >
