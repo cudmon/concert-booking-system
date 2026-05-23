@@ -25,9 +25,9 @@ All variables have safe defaults in `.env.example`. The only one you **must** se
 | `DB_NAME`     | db, api   | `postgres` |
 | `DB_USERNAME` | db, api   | `postgres` |
 | `DB_PASSWORD` | db, api   | `postgres` |
-| `DB_PORT`     | db (host) | `5432`     |
+| `DB_PORT`     | db        | `5432`     |
 | `JWT_SECRET`  | api       | `secret`   |
-| `WEB_PORT`    | web(host) | `3000`     |
+| `WEB_PORT`    | web       | `3000`     |
 
 # Future improvements
 
