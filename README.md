@@ -28,3 +28,12 @@ All variables have safe defaults in `.env.example`. The only one you **must** se
 | `DB_PORT`     | db (host) | `5432`     |
 | `JWT_SECRET`  | api       | `secret`   |
 | `WEB_PORT`    | web(host) | `3000`     |
+
+# Future improvements
+
+1. Performance optimizations
+   - Implement caching strategies for frequently accessed data.
+   - Optimize database queries and indexing.
+   - Use a CDN for static assets.
+2. Concurrency handling
+   - Use in-memory databases like Redis to manage concurrent booking requests and handle transactions in job queues,
