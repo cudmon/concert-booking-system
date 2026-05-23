@@ -6,6 +6,7 @@
     "dev": "pnpm run --parallel dev",
     "build": "pnpm run --parallel build",
     "lint": "pnpm run --parallel lint",
-    "format": "pnpm run --parallel format"
+    "format": "pnpm run --parallel format",
+    "test": "pnpm run --parallel test"
   }
 }
